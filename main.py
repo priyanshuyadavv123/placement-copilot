@@ -5,7 +5,12 @@ Entrypoint for Web Server and Terminal CLI.
 """
 
 import sys
+import os
 import argparse
+
+# Ensure root directory is in python module search path
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from web.server import run_server
 from core.ats_engine import ATSEngine
 from core.company_intel import get_all_companies, get_company_intel
