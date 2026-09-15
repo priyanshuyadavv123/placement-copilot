@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlacementCopilot AI — Bento UI Edition</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="bento-theme">
+
+  <!-- Ambient Glow & Dot Matrix -->
+  <div class="dot-matrix"></div>
+  <div class="ambient-glow glow-top"></div>
+  <div class="ambient-glow glow-bottom"></div>
+
+  <!-- Toast Alerts Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Floating Bento Navigation Island -->
+  <nav class="bento-nav-island">
+    <div class="nav-brand">
+      <div class="brand-badge">🎯</div>
+      <div class="brand-text">
+        <span class="brand-title">PlacementCopilot</span>
+        <span class="brand-pill">Bento v2.0</span>
+      </div>
+    </div>
+
+    <div class="nav-segments">
+      <button class="nav-seg active" data-tab="ats-scanner">
+        <span class="seg-icon">⚡</span> Dashboard & ATS
+      </button>
+      <button class="nav-seg" data-tab="mock-interview">
+        <span class="seg-icon">🎙️</span> Voice Interviewer
+      </button>
+      <button class="nav-seg" data-tab="company-vault">
+        <span class="seg-icon">🏢</span> Rounds Vault
+      </button>
+      <button class="nav-seg" data-tab="performance-report">
+        <span class="seg-icon">📊</span> Readiness Report
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <div class="live-telemetry">
+        <span class="live-dot"></span>
+        <span>Groq LPU Active</span>
+      </div>
+      <span class="lpu-chip">LPU Edition</span>
+    </div>
+  </nav>
+
+  <!-- Main Bento Canvas -->
+  <main class="bento-canvas">
+
+    <!-- ========================================================= -->
+    <!-- TAB 1: BENTO ATS & RECRUITER COCKPIT -->
+    <!-- ========================================================= -->
+    <section id="ats-scanner" class="tab-pane active">
+      <div class="bento-grid">
+
+        <!-- BENTO CARD 1: Target Recruiter Selector (Span 8) -->
+        <div class="bento-card bento-span-8 recruiter-card">
+          <div class="bento-card-header">
+            <div class="header-tag-group">
+              <span class="bento-badge cyan-badge">RECRUITER TARGETING</span>
+              <h3>Select Target Campus Recruiter</h3>
+            </div>
+            <span class="bento-subtext">Verified hiring patterns for 2026 campus drives</span>
+          </div>
+
+          <div class="bento-pills-shelf">
+            <button class="bento-pill" data-cid="amazon_sde">
+              <div class="pill-logo amazon-logo">A</div>
+              <div class="pill-info">
+                <strong>Amazon</strong>
+                <span>SDE-1 • ₹45 LPA</span>
+              </div>
+              <span class="tier-pill super-dream">Super Dream</span>
+            </button>
+
+            <button class="bento-pill active" data-cid="tcs_digital">
+              <div class="pill-logo tcs-logo">T</div>
+              <div class="pill-info">
+                <strong>TCS Digital</strong>
+                <span>Prime • ₹9.5 LPA</span>
+              </div>
+              <span class="tier-pill dream">Dream</span>
+            </button>
+
+            <button class="bento-pill" data-cid="accenture_ase">
+              <div class="pill-logo accenture-logo">⚡</div>
+              <div class="pill-info">
+                <strong>Accenture</strong>
+                <span>ASE/FSE • ₹6.5 LPA</span>
+              </div>
+              <span class="tier-pill core">Mass/Core</span>
+            </button>
+
+            <button class="bento-pill" data-cid="infosys_sp">
+              <div class="pill-logo infosys-logo">I</div>
+              <div class="pill-info">
+                <strong>Infosys SP</strong>
+                <span>Specialist • ₹12 LPA</span>
+              </div>
+              <span class="tier-pill dream">Specialist</span>
+            </button>
+
+            <button class="bento-pill" data-cid="google_swe">
+              <div class="pill-logo google-logo">G</div>
+              <div class="pill-info">
+                <strong>Google</strong>
+                <span>SWE • ₹55 LPA</span>
+              </div>
+              <span class="tier-pill super-dream">Super Dream</span>
+            </button>
+          </div>
+
+          <!-- Hidden sync select -->
+          <select id="companySelect" style="display: none;">
+            <option value="amazon_sde">Amazon</option>
+            <option value="tcs_digital" selected>TCS Digital</option>
+            <option value="accenture_ase">Accenture</option>
+            <option value="infosys_sp">Infosys SP</option>
+            <option value="google_swe">Google</option>
+          </select>
+        </div>
+
+        <!-- BENTO CARD 2: Quick Status & Shortlist Predictor (Span 4) -->
+        <div class="bento-card bento-span-4 status-card">
+          <div class="bento-card-header">
+            <span class="bento-badge purple-badge">TELEMETRY</span>
+            <h3>Shortlist Predictor</h3>
+          </div>
+          <div class="predictor-display">
+            <div class="predictor-gauge">
+              <span class="gauge-icon" id="predictorIcon">🎯</span>
+              <div class="predictor-val" id="predictorStatus">Standby</div>
+            </div>
+            <p class="predictor-desc" id="predictorDesc">Ready to evaluate resume against active selection criteria.</p>
+          </div>
+          <div class="quick-facts">
+            <div class="fact-item">
+              <span class="fact-num" id="factKeywords">--</span>
+              <span class="fact-label">Target Keywords</span>
+            </div>
+            <div class="fact-item">
+              <span class="fact-num" id="factRounds">3</span>
+              <span class="fact-label">Hiring Rounds</span>
+            </div>
+            <div class="fact-item">
+              <span class="fact-num" id="factEngine">0.2s</span>
+              <span class="fact-label">Latency</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BENTO CARD 3: Resume Input Deck (Span 6) -->
+        <div class="bento-card bento-span-6 editor-card">
+          <div class="bento-card-header">
+            <div class="header-tag-group">
+              <span class="bento-badge emerald-badge">INPUT DECK</span>
+              <h3>Resume Plaintext & Projects</h3>
+            </div>
+            <button id="btnLoadSampleResume" class="bento-btn-secondary">
+              ✨ Sample LPU Resume
+            </button>
+          </div>
+
+          <div class="code-editor-wrap">
+            <div class="editor-gutter">
+              <span>01</span><span>02</span><span>03</span><span>04</span>
+              <span>05</span><span>06</span><span>07</span><span>08</span>
+              <span>09</span><span>10</span><span>11</span><span>12</span>
+            </div>
+            <textarea id="resumeInput" rows="12" placeholder="// Paste candidate resume text or project bullets here..."></textarea>
+          </div>
+
+          <div class="editor-bottom-bar">
+            <span class="char-pill" id="charCount">0 characters</span>
+            <button id="btnRunATS" class="bento-btn-primary btn-glow">
+              <span class="btn-icon">⚡</span> Run Neural ATS Diagnostic
+            </button>
+          </div>
+        </div>
+
+        <!-- BENTO CARD 4: ATS Neural Diagnostic Hub (Span 6) -->
+        <div class="bento-card bento-span-6 results-bento-card" id="atsResultsSection">
+          
+          <!-- Empty State -->
+          <div class="bento-empty-state" id="atsEmptyState">
+            <div class="bento-radar">
+              <div class="radar-sweep"></div>
+              <div class="radar-dot"></div>
+            </div>
+            <h4>Neural Diagnostic Chamber Idle</h4>
+            <p>Load your resume on the left and hit <strong>"Run Neural ATS Diagnostic"</strong> to generate the mathematical match breakdown.</p>
+          </div>
+
+          <!-- Dynamic Results Content -->
+          <div class="bento-results-content" id="atsResultsContent" style="display: none;">
+            
+            <!-- Radial Meter + Critique Header -->
+            <div class="bento-score-row">
+              <div class="bento-dial-box">
+                <svg class="bento-dial" viewBox="0 0 100 100">
+                  <circle class="dial-bg" cx="50" cy="50" r="42"></circle>
+                  <circle class="dial-fill" id="scoreCircle" cx="50" cy="50" r="42"></circle>
+                </svg>
+                <div class="dial-text">
+                  <span id="scoreNumber">0</span><span class="dial-pct">%</span>
+                  <span class="dial-tag">ATS FIT</span>
+                </div>
+              </div>
+
+              <div class="bento-score-summary">
+                <div class="pill-badge-row">
+                  <span class="bento-badge emerald-badge" id="matchBadge">High Match</span>
+                  <span class="bento-badge gray-badge" id="companyBadge">TCS Digital</span>
+                </div>
+                <h4 id="scoreStatusTitle">Analyzing Profile...</h4>
+                <p id="scoreCritiqueText"></p>
+                <div class="bento-action-pill" id="scoreActionItem"></div>
+              </div>
+            </div>
+
+            <!-- Sub-Metrics Bars -->
+            <div class="bento-metrics-shelf">
+              <div class="bento-metric-slot">
+                <div class="slot-header">
+                  <span>Keyword Relevancy</span>
+                  <strong id="kwScoreText">0%</strong>
+                </div>
+                <div class="bento-bar-track">
+                  <div class="bento-bar-fill" id="kwBarFill" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <div class="bento-metric-slot">
+                <div class="slot-header">
+                  <span>Quantified Metrics</span>
+                  <strong id="metricScoreText">0%</strong>
+                </div>
+                <div class="bento-bar-track">
+                  <div class="bento-bar-fill" id="metricBarFill" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <div class="bento-metric-slot">
+                <div class="slot-header">
+                  <span>Action Verb Power</span>
+                  <strong id="verbScoreText">0%</strong>
+                </div>
+                <div class="bento-bar-track">
+                  <div class="bento-bar-fill" id="verbBarFill" style="width: 0%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Keywords Tray -->
+            <div class="bento-keywords-tray">
+              <div class="kw-col">
+                <span class="kw-col-title">Missing Critical Skills:</span>
+                <div id="missingKeywordsList" class="bento-chips-wrap"></div>
+              </div>
+              <div class="kw-col">
+                <span class="kw-col-title">Matched Competencies:</span>
+                <div id="matchedKeywordsList" class="bento-chips-wrap"></div>
+              </div>
+            </div>
+
+            <!-- Google X-Y-Z Upgrades -->
+            <div class="bento-rewrites-drawer">
+              <div class="drawer-header">
+                <h5>✨ Google X-Y-Z High-Impact Bullet Upgrades</h5>
+                <span class="formula-chip">Formula: Accomplished [X], measured by [Y], by doing [Z]</span>
+              </div>
+              <div id="bulletRewritesList" class="rewrites-scroll"></div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 2: BENTO LIVE MOCK INTERVIEWER STUDIO -->
+    <!-- ========================================================= -->
+    <section id="mock-interview" class="tab-pane">
+      <div class="bento-grid">
+
+        <!-- BENTO CARD 5: AI Voice Interview Studio (Span 7) -->
+        <div class="bento-card bento-span-7 interview-studio-card">
+          <div class="bento-card-header">
+            <div class="header-tag-group">
+              <span class="bento-badge purple-badge">VOICE AGENT</span>
+              <h3>Interactive Mock Interview Chamber</h3>
+            </div>
+            <div class="studio-controls">
+              <select id="interviewCompanySelect" class="bento-mini-select">
+                <option value="amazon_sde">Amazon SDE-1</option>
+                <option value="tcs_digital" selected>TCS Digital</option>
+                <option value="accenture_ase">Accenture ASE</option>
+                <option value="infosys_sp">Infosys SP</option>
+                <option value="google_swe">Google SWE</option>
+              </select>
+              <button id="btnNewQuestion" class="bento-btn-secondary">Next Question ➔</button>
+            </div>
+          </div>
+
+          <!-- Active Question Pod -->
+          <div class="question-pod">
+            <div class="pod-header">
+              <span class="category-tag" id="questionCategory">Core CS Fundamentals</span>
+              <div class="voice-controls-cluster">
+                <select id="voicePersonaSelect" class="bento-voice-select">
+                  <option value="rishi">🇮🇳 Rishi (Indian Tech Lead)</option>
+                  <option value="aman">🇮🇳 Aman (Indian Architect)</option>
+                  <option value="samantha" selected>🇺🇸 Samantha (US Bar Raiser)</option>
+                  <option value="daniel">🇬🇧 Daniel (UK Tech Manager)</option>
+                </select>
+                <button id="btnReadAloud" class="voice-trigger-btn">
+                  <span class="voice-wave-icon">🔊</span>
+                  <span>Listen to Interviewer</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Animated Soundwave Equalizer -->
+            <div class="soundwave-pod" id="soundwaveContainer" style="display: none;">
+              <span class="wave-tag">AI Voice Active:</span>
+              <div class="soundwave">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+              </div>
+            </div>
+
+            <div class="question-prompt" id="activeQuestionText">
+              Loading targeted campus interview challenge...
+            </div>
+          </div>
+
+          <!-- Student Response Chamber -->
+          <div class="response-chamber">
+            <div class="chamber-header">
+              <label for="studentAnswerInput">Your Technical Response:</label>
+              <div class="chamber-tools">
+                <span class="bento-timer" id="interviewTimer">⏱️ 00:00</span>
+                <button id="btnFillSampleAnswer" class="bento-btn-secondary">Load Benchmark Answer</button>
+              </div>
+            </div>
+            <textarea id="studentAnswerInput" rows="6" placeholder="Articulate your thought process: Time & Space complexity, chosen data structures, and edge case mitigation..."></textarea>
+            
+            <div class="chamber-footer">
+              <div class="word-counter-wrap">
+                <span id="answerWordCount">0 words</span>
+                <span class="guideline-text">Target: 40–120 words</span>
+              </div>
+              <button id="btnSubmitAnswer" class="bento-btn-primary btn-glow">
+                <span>Evaluate Response</span> ⚡
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BENTO CARD 6: Evaluation & Scoring Cockpit (Span 5) -->
+        <div class="bento-card bento-span-5 eval-cockpit-card" id="evaluationSection">
+          <div class="bento-card-header">
+            <span class="bento-badge emerald-badge">RUBRIC SCORING</span>
+            <h3>Senior Staff Evaluation</h3>
+          </div>
+
+          <div class="bento-empty-state" id="evalEmptyState">
+            <span class="empty-icon-glyph">💡</span>
+            <h4>No Answer Evaluated Yet</h4>
+            <p>Answer the interview prompt and click <strong>"Evaluate Response"</strong> to generate real-time grading, identified gaps, and the benchmark solution.</p>
+          </div>
+
+          <div class="bento-eval-content" id="evalContent" style="display: none;">
+            <div class="score-cards-trio">
+              <div class="score-box">
+                <span class="score-val" id="ratingTechnical">0/10</span>
+                <span class="score-lbl">Technical Correctness</span>
+              </div>
+              <div class="score-box">
+                <span class="score-val" id="ratingClarity">0/10</span>
+                <span class="score-lbl">Communication Clarity</span>
+              </div>
+              <div class="score-box highlight-box">
+                <span class="score-val" id="ratingOverall">0/10</span>
+                <span class="score-lbl">Placement Readiness</span>
+              </div>
+            </div>
+
+            <div class="feedback-pod strengths-pod">
+              <h5>✅ What You Handled Well:</h5>
+              <p id="evalStrengthsText"></p>
+            </div>
+
+            <div class="feedback-pod gaps-pod">
+              <h5>⚠️ Critical Missing Blindspots:</h5>
+              <p id="evalGapsText"></p>
+            </div>
+
+            <div class="feedback-pod ideal-pod">
+              <div class="ideal-top">
+                <h5>🏆 Senior Staff Benchmark Model:</h5>
+                <button class="bento-btn-copy" id="btnCopyIdeal">📋 Copy</button>
+              </div>
+              <p id="evalIdealText" class="code-font"></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 3: BENTO COMPANY ROUNDS VAULT -->
+    <!-- ========================================================= -->
+    <section id="company-vault" class="tab-pane">
+      <div class="bento-grid">
+        <div class="bento-card bento-span-12 vault-intro-card">
+          <div class="vault-hero">
+            <span class="bento-badge cyan-badge">LPU CAMPUS BLUEPRINTS</span>
+            <h2>🏢 Verified Campus Recruitment Vault</h2>
+            <p>Actual round breakdowns, test structures, and package bands for companies recruiting at Lovely Professional University.</p>
+          </div>
+        </div>
+      </div>
+      <div class="bento-vault-grid" id="companyVaultGrid"></div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 4: BENTO READINESS AUDIT REPORT -->
+    <!-- ========================================================= -->
+    <section id="performance-report" class="tab-pane">
+      <div class="bento-grid">
+        <div class="bento-card bento-span-12 report-card">
+          <div class="bento-card-header">
+            <div class="header-tag-group">
+              <span class="bento-badge purple-badge">TELEMETRY AUDIT</span>
+              <h2>📊 Official Student Placement Readiness Dossier</h2>
+            </div>
+            <button id="btnDownloadCSV" class="bento-btn-primary btn-glow">
+              📥 Export Audit Telemetry (.CSV)
+            </button>
+          </div>
+          <p class="bento-subtext">Official candidate diagnostic assessment calibrated for placement cell review.</p>
+
+          <div class="bento-metrics-quad">
+            <div class="quad-tile">
+              <span class="quad-icon">🎯</span>
+              <span class="quad-val" id="summaryScore">--</span>
+              <span class="quad-lbl">Latest ATS Score</span>
+            </div>
+            <div class="quad-tile">
+              <span class="quad-icon">🎙️</span>
+              <span class="quad-val" id="summaryInterviewScore">--</span>
+              <span class="quad-lbl">Mock Interview Avg</span>
+            </div>
+            <div class="quad-tile">
+              <span class="quad-icon">🏢</span>
+              <span class="quad-val" id="summaryTargetCompany">TCS Digital</span>
+              <span class="quad-lbl">Target Recruiter</span>
+            </div>
+            <div class="quad-tile">
+              <span class="quad-icon">🚀</span>
+              <span class="quad-val" id="summaryStatus">Pending</span>
+              <span class="quad-lbl">Campus Readiness</span>
+            </div>
+          </div>
+
+          <div class="bento-log-box">
+            <h4>Live Diagnostic Audit Trail:</h4>
+            <ul id="sessionLogsList" class="bento-logs">
+              <li>Telemetry system armed. Ready to track candidate milestones.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
